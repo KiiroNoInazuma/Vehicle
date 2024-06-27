@@ -11,8 +11,8 @@ public class Launcher {
         Vehicle kia = new Vehicle("Kia", "Sportage", 2.4, "красный", 2018, "Южная Корея");
         Vehicle hyundai = new Vehicle("Hyundai", "Avante", 1.6, "оранжевый", 2016, "Южная Корея");*/
         Vehicle testCar = new Vehicle(null, " ", -1, "", -1, null,
-                "", "    ", null, -6);
-
+                "", "    ", null, -6, null);
+        System.out.println(testCar);
 
     }
 }

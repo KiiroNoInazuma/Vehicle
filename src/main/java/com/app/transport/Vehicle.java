@@ -6,14 +6,15 @@ import static java.util.Objects.isNull;
 
 public class Vehicle {
 
-    public class Key {
-       private final boolean remoteEngineStart;
-       private final boolean keylessEntry;
+    public static class Key {
+        private final boolean remoteEngineStart;
+        private final boolean keylessEntry;
 
         public Key(boolean remoteEngineStart, boolean keylessEntry) {
             this.remoteEngineStart = remoteEngineStart;
             this.keylessEntry = keylessEntry;
         }
+
 
         @Override
         public String toString() {
@@ -49,7 +50,7 @@ public class Vehicle {
         setRegNumValidate(regNum);
         this.seats = seats <= 0 ? 1 : seats;
         this.tires = identifyTires();
-        this.key = key;
+        this.key = isNull(key) ? new Key(false, false) : key;
     }
 
     public void setRegNumValidate(String regNum) {
@@ -117,6 +118,7 @@ public class Vehicle {
                 ", bodyType=" + bodyType +
                 ", regNum=" + regNum +
                 ", seats=" + seats +
-                ", tires=" + (tires ? "зимние" : "летние");
+                ", tires=" + (tires ? "зимние" : "летние") +
+                ", " + key;
     }
 }
