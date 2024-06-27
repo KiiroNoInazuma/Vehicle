@@ -10,10 +10,9 @@ public class Launcher {
         Vehicle bmw = new Vehicle("BMW", "Z8", 3.0, "черный", 2021, "Германия");
         Vehicle kia = new Vehicle("Kia", "Sportage", 2.4, "красный", 2018, "Южная Корея");
         Vehicle hyundai = new Vehicle("Hyundai", "Avante", 1.6, "оранжевый", 2016, "Южная Корея");*/
-        Vehicle testCar = new Vehicle(null, " ", 1, "", -1, null,
-                "", "    ", null, -6, false);
+        Vehicle testCar = new Vehicle(null, " ", -1, "", -1, null,
+                "", "    ", null, -6);
 
 
-        System.out.println(testCar);
     }
 }

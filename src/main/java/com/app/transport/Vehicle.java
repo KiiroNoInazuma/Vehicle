@@ -1,33 +1,66 @@
 package com.app.transport;
 
+import java.time.LocalDate;
+
 import static java.util.Objects.isNull;
 
 public class Vehicle {
+
+    public class Key {
+       private final boolean remoteEngineStart;
+       private final boolean keylessEntry;
+
+        public Key(boolean remoteEngineStart, boolean keylessEntry) {
+            this.remoteEngineStart = remoteEngineStart;
+            this.keylessEntry = keylessEntry;
+        }
+
+        @Override
+        public String toString() {
+            return "Key: " +
+                    "remoteEngineStart=" + remoteEngineStart +
+                    ", keylessEntry=" + keylessEntry;
+        }
+    }
+
     private final String brand;
     private final String model;
     private double engineVolume;
     private String color;
     private final int year;
     private final String country;
-    private String transmission;
+    private final String transmission;
     private final String bodyType;
     private String regNum;
-    private int seats;
-    private final boolean areWinterTires;
+    private final int seats;
+    private final boolean tires;
+    private final Key key;
 
     public Vehicle(String brand, String model, double engineVolume, String color, int year,
-                   String country, String transmission, String bodyType, String regNum, int seats, boolean areWinterTires) {
+                   String country, String transmission, String bodyType, String regNum, int seats, Key key) {
         this.brand = setDefaultValue(brand);
         this.model = setDefaultValue(model);
-        this.engineVolume = setEngineVolume(engineVolume);
-        this.color = setDefaultValueColor(color);
+        setEngineVolume(engineVolume);
+        setDefaultValueColor(color);
         this.year = setDefaultValue(year);
         this.country = setDefaultValue(country);
         this.transmission = setDefaultValue(transmission);
         this.bodyType = setDefaultValue(bodyType);
-        this.regNum = setDefaultValue(regNum);
+        setRegNumValidate(regNum);
         this.seats = seats <= 0 ? 1 : seats;
-        this.areWinterTires = areWinterTires;
+        this.tires = identifyTires();
+        this.key = key;
+    }
+
+    public void setRegNumValidate(String regNum) {
+        final String regex = "[АВЕКМНОРСТУХABEKMHOPCTYX]\\d{3}[АВЕКМНОРСТУХABEKMHOPCTYX]{2}\\d{2,3}";
+        final boolean checkRegNum = setDefaultValue(regNum).toUpperCase().matches(regex);
+        if (checkRegNum) {
+            this.regNum = regNum;
+        } else {
+            System.out.println("\u001B[31mВнимание! Ошибка ввода регистрационного номера ТС\u001B[0m");
+            this.regNum = "х000хх000";
+        }
     }
 
     private String setDefaultValue(String value) {
@@ -37,21 +70,20 @@ public class Vehicle {
         return value;
     }
 
-    public String setDefaultValueColor(String color) {
+    public void setDefaultValueColor(String color) {
         if (isNull(color) || color.isBlank()) {
-            return "белый";
+            this.color = "белый";
+        } else {
+            this.color = color;
         }
-        this.color = color;
-        return color;
     }
 
-    public double setEngineVolume(double value) {
+    public void setEngineVolume(double value) {
         if (value <= 0) {
-            return 1.5;
+            engineVolume = 1.5;
         } else {
             engineVolume = value;
         }
-        return value;
     }
 
     private int setDefaultValue(int value) {
@@ -59,6 +91,16 @@ public class Vehicle {
             return 2000;
         }
         return value;
+    }
+
+    private boolean identifyTires() {
+        int value = LocalDate.now().getMonth().getValue();
+        switch (value) {
+            case 1, 2, 3, 11, 12 -> {
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -75,6 +117,6 @@ public class Vehicle {
                 ", bodyType=" + bodyType +
                 ", regNum=" + regNum +
                 ", seats=" + seats +
-                ", areWinterTires=" + areWinterTires;
+                ", tires=" + (tires ? "зимние" : "летние");
     }
 }
