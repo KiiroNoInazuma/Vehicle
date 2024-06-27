@@ -15,7 +15,6 @@ public class Vehicle {
             this.keylessEntry = keylessEntry;
         }
 
-
         @Override
         public String toString() {
             return "Key: " +
@@ -105,7 +104,6 @@ public class Vehicle {
         }
         return false;
     }
-
 
     @Override
     public String toString() {
