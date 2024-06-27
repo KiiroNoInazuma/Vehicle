@@ -59,7 +59,7 @@ public class Vehicle {
         if (checkRegNum) {
             this.regNum = regNum;
         } else {
-            System.out.println("\u001B[31mВнимание! Ошибка ввода регистрационного номера ТС\u001B[0m");
+            System.out.println("\u001B[31mВнимание! Ошибка ввода регистрационного номера " + brand + " " + model + "\u001B[0m");
             this.regNum = "х000хх000";
         }
     }
