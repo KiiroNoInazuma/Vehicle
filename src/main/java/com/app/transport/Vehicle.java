@@ -51,6 +51,8 @@ public class Vehicle {
         this.seats = seats <= 0 ? 1 : seats;
         this.tires = identifyTires();
         this.key = isNull(key) ? new Key(false, false) : key;
+
+        System.out.println(this);
     }
 
     public void setRegNumValidate(String regNum) {
