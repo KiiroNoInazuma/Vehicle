@@ -1,8 +1,11 @@
 package com.app.transport;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.requireNonNullElse;
 
 public class Vehicle {
 
@@ -18,8 +21,44 @@ public class Vehicle {
         @Override
         public String toString() {
             return "Key: " +
-                    "remoteEngineStart=" + remoteEngineStart +
-                    ", keylessEntry=" + keylessEntry;
+                    "remoteEngineStart = " + remoteEngineStart +
+                    ", keylessEntry = " + keylessEntry;
+        }
+    }
+
+    public static class Insurance {
+        private final String durationInsurance;
+        private final double premSum;
+        private final String isnInsurance;
+
+        public Insurance(String durationInsurance, double premSum, String isnInsurance) {
+            this.durationInsurance = requireNonNullElse(checkExpirationDateInsurance(durationInsurance),
+                    "Дата окончания страховки не введена");
+            this.premSum = premSum;
+            this.isnInsurance = isnInsuranceValidate(isnInsurance);
+        }
+
+        private String checkExpirationDateInsurance(String date) {
+            final LocalDate dateInsurance = LocalDate.parse(Objects.requireNonNullElse(date, "01.01.0001"),
+                    DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+            if (LocalDate.now().isAfter(dateInsurance) && date != null) {
+                return "\u001B[31mВнимание! Страховка на автомобиль просрочена\u001B[0m";
+            }
+            return date;
+        }
+
+        private String isnInsuranceValidate(String isn) {
+            final String regex = "[A-Za-z0-9]{9}";
+            return setDefaultValue(isn).toUpperCase().matches(regex) ? isn :
+                    "\u001B[31mНомер страховки некорректный!\u001B[0m --> " + isn;
+        }
+
+        @Override
+        public String toString() {
+            return "Insurance: " +
+                    "durationInsurance = " + durationInsurance +
+                    ", premSum = " + premSum +
+                    ", isnInsurance = " + isnInsurance;
         }
     }
 
@@ -35,9 +74,10 @@ public class Vehicle {
     private final int seats;
     private final boolean tires;
     private final Key key;
+    private final Insurance insurance;
 
-    public Vehicle(String brand, String model, double engineVolume, String color, int year,
-                   String country, String transmission, String bodyType, String regNum, int seats, Key key) {
+    public Vehicle(String brand, String model, double engineVolume, String color, int year, String country,
+                   String transmission, String bodyType, String regNum, int seats, Key key, Insurance insurance) {
         this.brand = setDefaultValue(brand);
         this.model = setDefaultValue(model);
         setEngineVolume(engineVolume);
@@ -50,7 +90,7 @@ public class Vehicle {
         this.seats = seats <= 0 ? 1 : seats;
         this.tires = identifyTires();
         this.key = isNull(key) ? new Key(false, false) : key;
-
+        this.insurance = isNull(insurance) ? new Insurance(null, 0.0, null) : insurance;
         System.out.println(this);
     }
 
@@ -65,7 +105,7 @@ public class Vehicle {
         }
     }
 
-    private String setDefaultValue(String value) {
+    private static String setDefaultValue(String value) {
         if (isNull(value) || value.isBlank()) {
             return "default";
         }
@@ -108,17 +148,18 @@ public class Vehicle {
     @Override
     public String toString() {
         return "Vehicle: " +
-                "brand='" + brand + '\'' +
-                ", model='" + model + '\'' +
-                ", engineVolume=" + engineVolume +
-                ", color='" + color + '\'' +
-                ", year=" + year +
-                ", country=" + country +
-                ", transmission=" + transmission +
-                ", bodyType=" + bodyType +
-                ", regNum=" + regNum +
-                ", seats=" + seats +
-                ", tires=" + (tires ? "зимние" : "летние") +
-                ", " + key;
+                "\nbrand = " + brand +
+                ", \nmodel = " + model +
+                ", \nengineVolume = " + engineVolume +
+                ", \ncolor = " + color +
+                ", \nyear = " + year +
+                ", \ncountry = " + country +
+                ", \ntransmission = " + transmission +
+                ", \nbodyType = " + bodyType +
+                ", \nregNum = " + regNum +
+                ", \nseats = " + seats +
+                ", \ntires = " + (tires ? "зимние" : "летние") +
+                ", \n" + key +
+                ", \n" + insurance;
     }
 }
