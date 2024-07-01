@@ -13,8 +13,9 @@ import com.app.transport.Vehicle;
  */
 public class Launcher {
     public static void main(String[] args) {
-       new Vehicle("Lada", "Granta", 1.7, "желтый", 2015, "Россия",
+        Vehicle vehicle = new Vehicle("Lada", "Granta", 1.7, "желтый", 2015, "Россия",
                 "механическая", "седан", "E846PO199", 5, new Vehicle.Key(true,
-               true), new Vehicle.Insurance("22.07.2024", 20545.52, "12314145k"));
+                true), new Vehicle.Insurance("22.07.2024", 20545.52, "12314145k"), 220);
+        System.out.println(vehicle);
     }
 }

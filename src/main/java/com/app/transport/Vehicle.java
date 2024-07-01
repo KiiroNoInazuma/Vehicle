@@ -7,7 +7,7 @@ import java.util.Objects;
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNullElse;
 
-public class Vehicle {
+public class Vehicle extends Transport {
 
     public static class Key {
         private final boolean remoteEngineStart;
@@ -62,12 +62,7 @@ public class Vehicle {
         }
     }
 
-    private final String brand;
-    private final String model;
     private double engineVolume;
-    private String color;
-    private final int year;
-    private final String country;
     private final String transmission;
     private final String bodyType;
     private String regNum;
@@ -77,13 +72,10 @@ public class Vehicle {
     private final Insurance insurance;
 
     public Vehicle(String brand, String model, double engineVolume, String color, int year, String country,
-                   String transmission, String bodyType, String regNum, int seats, Key key, Insurance insurance) {
-        this.brand = setDefaultValue(brand);
-        this.model = setDefaultValue(model);
+                   String transmission, String bodyType, String regNum, int seats, Key key, Insurance insurance, int maxSpeed) {
+
+        super(brand, model, year, country, color, maxSpeed);
         setEngineVolume(engineVolume);
-        setDefaultValueColor(color);
-        this.year = setDefaultValue(year);
-        this.country = setDefaultValue(country);
         this.transmission = setDefaultValue(transmission);
         this.bodyType = setDefaultValue(bodyType);
         setRegNumValidate(regNum);
@@ -91,7 +83,6 @@ public class Vehicle {
         this.tires = identifyTires();
         this.key = isNull(key) ? new Key(false, false) : key;
         this.insurance = isNull(insurance) ? new Insurance(null, 0.0, null) : insurance;
-        System.out.println(this);
     }
 
     public void setRegNumValidate(String regNum) {
@@ -100,25 +91,11 @@ public class Vehicle {
         if (checkRegNum) {
             this.regNum = regNum;
         } else {
-            System.out.println("\u001B[31mВнимание! Ошибка ввода регистрационного номера " + brand + " " + model + "\u001B[0m");
+            System.out.println("\u001B[31mВнимание! Ошибка ввода регистрационного номера " + getBrand() + " " + getModel() + "\u001B[0m");
             this.regNum = "х000хх000";
         }
     }
 
-    private static String setDefaultValue(String value) {
-        if (isNull(value) || value.isBlank()) {
-            return "default";
-        }
-        return value;
-    }
-
-    public void setDefaultValueColor(String color) {
-        if (isNull(color) || color.isBlank()) {
-            this.color = "белый";
-        } else {
-            this.color = color;
-        }
-    }
 
     public void setEngineVolume(double value) {
         if (value <= 0) {
@@ -126,13 +103,6 @@ public class Vehicle {
         } else {
             engineVolume = value;
         }
-    }
-
-    private int setDefaultValue(int value) {
-        if (value <= 0) {
-            return 2000;
-        }
-        return value;
     }
 
     private boolean identifyTires() {
@@ -147,13 +117,8 @@ public class Vehicle {
 
     @Override
     public String toString() {
-        return "Vehicle: " +
-                "\nbrand = " + brand +
-                ", \nmodel = " + model +
+        return "Vehicle: " + super.toString() +
                 ", \nengineVolume = " + engineVolume +
-                ", \ncolor = " + color +
-                ", \nyear = " + year +
-                ", \ncountry = " + country +
                 ", \ntransmission = " + transmission +
                 ", \nbodyType = " + bodyType +
                 ", \nregNum = " + regNum +
