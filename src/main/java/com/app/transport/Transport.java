@@ -2,7 +2,7 @@ package com.app.transport;
 
 import static java.util.Objects.isNull;
 
-public class Transport {
+public abstract class Transport {
     private final String brand;
     private final String model;
     private final int year;
@@ -26,6 +26,8 @@ public class Transport {
             this.color = color;
         }
     }
+
+    public abstract String refill();
 
     public void setMaxSpeed(int speed) {
         if (speed <= 0) {
@@ -60,10 +62,11 @@ public class Transport {
     @Override
     public String toString() {
         return "\nbrand = " + brand +
-                ", \nmodel = " + model +
-                ", \ncolor = " + color +
-                ", \nyear = " + year +
-                ", \ncountry = " + country +
-                ", \nmaxSpeed = " + maxSpeed;
+                " \nmodel = " + model +
+                " \ncolor = " + color +
+                " \nyear = " + year +
+                " \ncountry = " + country +
+                " \nmaxSpeed = " + maxSpeed +
+                " \nrefill = " + refill();
     }
 }

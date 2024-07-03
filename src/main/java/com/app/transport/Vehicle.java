@@ -116,15 +116,20 @@ public class Vehicle extends Transport {
     }
 
     @Override
+    public String refill() {
+        return "Можно заправлять бензином, дизелем на заправке или заряжать на специальных электроду-парковках, если это электрокар";
+    }
+
+    @Override
     public String toString() {
         return "Vehicle: " + super.toString() +
-                ", \nengineVolume = " + engineVolume +
-                ", \ntransmission = " + transmission +
-                ", \nbodyType = " + bodyType +
-                ", \nregNum = " + regNum +
-                ", \nseats = " + seats +
-                ", \ntires = " + (tires ? "зимние" : "летние") +
-                ", \n" + key +
-                ", \n" + insurance;
+                " \nengineVolume = " + engineVolume +
+                " \ntransmission = " + transmission +
+                " \nbodyType = " + bodyType +
+                " \nregNum = " + regNum +
+                " \nseats = " + seats +
+                " \ntires = " + (tires ? "зимние" : "летние") +
+                " \n" + key +
+                " \n" + insurance;
     }
 }
