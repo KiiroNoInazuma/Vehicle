@@ -7,7 +7,7 @@ import java.util.Objects;
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNullElse;
 
-public class Vehicle extends Transport {
+public class Vehicle extends Transport{
 
     public static class Key {
         private final boolean remoteEngineStart;
@@ -105,7 +105,7 @@ public class Vehicle extends Transport {
         }
     }
 
-    private boolean identifyTires() {
+    public boolean identifyTires() {
         int value = LocalDate.now().getMonth().getValue();
         switch (value) {
             case 1, 2, 3, 11, 12 -> {

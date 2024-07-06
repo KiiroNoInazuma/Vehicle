@@ -44,7 +44,7 @@ public abstract class Transport {
         return value;
     }
 
-    protected int setDefaultValue(int value) {
+    protected final int setDefaultValue(int value) {
         if (value <= 0) {
             return 2000;
         }

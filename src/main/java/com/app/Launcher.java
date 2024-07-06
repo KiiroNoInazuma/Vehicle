@@ -11,13 +11,14 @@ import com.app.transport.Vehicle;
  * Vehicle testCar = new Vehicle(null, " ", -1, "", -1, null,
  * "", "    ", null, -6, null);
  * System.out.println(lada);
+ *  Bus bus = new Bus("seesf", "fseafs", 23, "wda", "awda", 23);
  */
 public class Launcher {
     public static void main(String[] args) {
-       Transport transport = new Vehicle("Lada", "Granta", 1.7, "желтый", 2015, "Россия",
+        Transport transport = new Vehicle("Lada", "Granta", 1.7, "желтый", 2015, "Россия",
                 "механическая", "седан", "E846PO199", 5, new Vehicle.Key(true,
                 true), new Vehicle.Insurance("22.07.2024", 20545.52, "12314145k"), 220);
-        System.out.println(transport);
+
 
 
     }
